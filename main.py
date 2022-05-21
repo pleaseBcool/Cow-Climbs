@@ -28,7 +28,7 @@ platform_separation=120
 platforms_height=100
 platforms= []
 
-can_jump=True
+can_jump=False
 while total_platforms>0:
     # platform =  pygame.Rect(100, 80, 120, 16)
     platform =  pygame.Rect(random.randint(1,300), platforms_height, 120, 16)
@@ -53,7 +53,6 @@ def jim_movement(keys_pressed, jim,all_platforms,can_jump):
         if keys_pressed[pygame.K_w]:
             if can_jump==False:
                 jim.y-=VEL
-                can_jump=True
                 for platform in all_platforms:
                     platform.y+=VEL
         if keys_pressed[pygame.K_s]:
@@ -75,12 +74,10 @@ def gravity(jim, all_platforms, can_jump):
     result = all(platform_ToF)
     if result==True:
         jim.y+=GRAVITY
-        can_jump=True
-        print(can_jump)
-    else:
         can_jump=False
-        print(can_jump)
-        
+    else:
+        can_jump=True
+
 
     
 def main():
@@ -92,6 +89,9 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run= False
+        if jim.y>=HEIGHT-10:
+            run=False
+        print(jim.y-HEIGHT)
         keys_pressed = pygame.key.get_pressed()
         #jim.y+=GRAVITY*GRAVITY
         jim_movement(keys_pressed, jim,platforms, can_jump)
