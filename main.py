@@ -3,28 +3,17 @@ import os
 import random
 WIDTH, HEIGHT= 500, 400
 WIN = pygame.display.set_mode((WIDTH,HEIGHT))
-pygame.display.set_caption("d")
-
-
+pygame.display.set_caption("Cow Climb")
 WHITE = (255,255,255)
-
 FPS = 60
 VEL=5
 JIM_IMAGE = pygame.image.load(os.path.join('Assets',"cow.png"))
 JIM = pygame.transform.scale(JIM_IMAGE,(100,100))
-
 PLATFORM_IMAGE = pygame.image.load(os.path.join('Assets',"platform.png"))
 PLATFORM = pygame.transform.scale(PLATFORM_IMAGE,(120 ,16))
-
-
-
 GRAVITY=1.1
-
-
 total_platforms=100
-
 platform_separation=120
-
 platforms_height=100
 platforms= []
 can_jump=True
@@ -34,16 +23,12 @@ while total_platforms>0:
     platforms.append(platform)
     total_platforms=total_platforms-1
     platforms_height=platforms_height-platform_separation
-
-
-    
 def draw_window(jim, all_platforms):
     WIN.fill(WHITE)
     WIN.blit(JIM, (jim.x,jim.y))
     for platform in all_platforms:
         WIN.blit(PLATFORM, (platform.x,platform.y+22))
     pygame.display.update()
-
 def jim_movement(keys_pressed, jim,all_platforms):
         if keys_pressed[pygame.K_a]:
             jim.x-=VEL
@@ -55,8 +40,7 @@ def jim_movement(keys_pressed, jim,all_platforms):
                 for platform in all_platforms:
                     platform.y+=VEL
         if keys_pressed[pygame.K_s]:
-            jim.y+=VEL
-        
+            jim.y+=VEL 
 def gravity(jim, all_platforms):
     platform_num=1
     platform_ToF=[]
@@ -78,9 +62,6 @@ def gravity(jim, all_platforms):
     else:
         can_jump=True
         print('false')
-        
-
-    
 def main():
     jim = pygame.Rect(300, 100, 70, 70)
     clock= pygame.time.Clock()
