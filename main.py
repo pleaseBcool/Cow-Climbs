@@ -95,8 +95,6 @@ def main():
         jim_movement(keys_pressed, jim,platforms)
         draw_window(jim,platforms)
         gravity(jim, platforms)
-        
-
     pygame.quit
 
 if __name__ == "__main__":
