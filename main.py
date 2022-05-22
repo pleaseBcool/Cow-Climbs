@@ -1,3 +1,4 @@
+from xmlrpc.client import Boolean
 import pygame
 import os
 import random
@@ -21,6 +22,7 @@ PLATFORM = pygame.transform.scale(PLATFORM_IMAGE,(120 ,16))
 GRAVITY=1.1
 
 
+
 total_platforms=100
 
 platform_separation=120
@@ -28,7 +30,6 @@ platform_separation=120
 platforms_height=100
 platforms= []
 
-can_jump=False
 while total_platforms>0:
     # platform =  pygame.Rect(100, 80, 120, 16)
     platform =  pygame.Rect(random.randint(1,300), platforms_height, 120, 16)
@@ -37,28 +38,32 @@ while total_platforms>0:
     platforms_height=platforms_height-platform_separation
 
 
-    
+can_jump=Boolean
 def draw_window(jim, all_platforms):
+    global can_jump
     WIN.fill(WHITE)
     WIN.blit(JIM, (jim.x,jim.y))
     for platform in all_platforms:
         WIN.blit(PLATFORM, (platform.x,platform.y+22))
     pygame.display.update()
 
-def jim_movement(keys_pressed, jim,all_platforms,can_jump):
+def jim_movement(keys_pressed, jim,all_platforms):
+        global can_jump
+
         if keys_pressed[pygame.K_a]:
             jim.x-=VEL
         if keys_pressed[pygame.K_d]:
             jim.x+=VEL
         if keys_pressed[pygame.K_w]:
-            if can_jump==False:
-                jim.y-=VEL
+            if can_jump==True:
+                jim.y-=VEL*10
                 for platform in all_platforms:
                     platform.y+=VEL
         if keys_pressed[pygame.K_s]:
             jim.y+=VEL
         
-def gravity(jim, all_platforms, can_jump):
+def gravity(jim, all_platforms):
+    global can_jump
     platform_num=1
     platform_ToF=[]
     result=[]
@@ -72,15 +77,18 @@ def gravity(jim, all_platforms, can_jump):
             platform_num=platform_num+1
 
     result = all(platform_ToF)
+    #print(result)
     if result==True:
         jim.y+=GRAVITY
         can_jump=False
+        print(can_jump)
     else:
         can_jump=True
 
 
     
 def main():
+    
     jim = pygame.Rect(300, -100, 70, 70)
     clock= pygame.time.Clock()
     run = True
@@ -91,13 +99,12 @@ def main():
                 run= False
         if jim.y>=HEIGHT-10:
             run=False
-        print(jim.y-HEIGHT)
         keys_pressed = pygame.key.get_pressed()
         #jim.y+=GRAVITY*GRAVITY
-        jim_movement(keys_pressed, jim,platforms, can_jump)
+        jim_movement(keys_pressed, jim,platforms)
         draw_window(jim,platforms)
-        gravity(jim, platforms, can_jump)
-        
+        gravity(jim, platforms)
+        print(can_jump)
 
     pygame.quit
 
