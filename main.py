@@ -2,6 +2,7 @@ from xmlrpc.client import Boolean
 import pygame
 import os
 import random
+import time
 WIDTH, HEIGHT= 500, 400
 WIN = pygame.display.set_mode((WIDTH,HEIGHT))
 pygame.display.set_caption("Cow Climbs")
@@ -27,7 +28,7 @@ total_platforms=100
 
 platform_separation=120
 
-platforms_height=100
+platforms_height=200
 platforms= []
 
 while total_platforms>0:
@@ -38,7 +39,9 @@ while total_platforms>0:
     platforms_height=platforms_height-platform_separation
 
 
-can_jump=Boolean
+can_jump=False
+jumpCount=10
+
 def draw_window(jim, all_platforms):
     global can_jump
     WIN.fill(WHITE)
@@ -49,18 +52,23 @@ def draw_window(jim, all_platforms):
 
 def jim_movement(keys_pressed, jim,all_platforms):
         global can_jump
-
+        global jumpCount
         if keys_pressed[pygame.K_a]:
             jim.x-=VEL
         if keys_pressed[pygame.K_d]:
             jim.x+=VEL
-        if keys_pressed[pygame.K_w]:
-            if can_jump==True:
-                jim.y-=VEL*10
-                for platform in all_platforms:
-                    platform.y+=VEL
-        if keys_pressed[pygame.K_s]:
-            jim.y+=VEL
+        if not(can_jump):
+            if keys_pressed[pygame.K_w]:
+                can_jump=True
+            if keys_pressed[pygame.K_s]:
+                jim.y+=VEL
+        else:
+            if jumpCount >= -10:
+                jim.y -= (jumpCount * abs(jumpCount)) * 0.5
+                jumpCount -= 1
+            else: # This will execute if our jump is finished
+                jumpCount = 10
+                can_jump = False
         
 def gravity(jim, all_platforms):
     global can_jump
@@ -79,7 +87,6 @@ def gravity(jim, all_platforms):
     result = all(platform_ToF)
     #print(result)
     if result==True:
-        jim.y+=GRAVITY
         can_jump=False
         print(can_jump)
     else:
@@ -89,7 +96,7 @@ def gravity(jim, all_platforms):
     
 def main():
     
-    jim = pygame.Rect(300, -100, 70, 70)
+    jim = pygame.Rect(300, 00, 70, 70)
     clock= pygame.time.Clock()
     run = True
     while run:
