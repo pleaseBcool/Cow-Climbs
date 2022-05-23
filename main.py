@@ -40,7 +40,7 @@ while total_platforms>0:
 
 
 can_jump=False
-jumpCount=10
+jumpCount=20
 
 def draw_window(jim, all_platforms):
     global can_jump
@@ -58,7 +58,7 @@ def jim_movement(keys_pressed, jim,all_platforms):
         if keys_pressed[pygame.K_d]:
             jim.x+=VEL
         if not(can_jump):
-            #jim.y+=VEL
+            jim.y+=VEL
             if keys_pressed[pygame.K_w]:
                 can_jump=True
                 for platform in all_platforms:
@@ -69,13 +69,13 @@ def jim_movement(keys_pressed, jim,all_platforms):
             #dont know what to do lol
                 for platform in all_platforms:
                     platform.y+=VEL
-
-                if jumpCount >= -10:
-                    jim.y -= (jumpCount * abs(jumpCount)) * 0.5
-                    jumpCount -= 1
-                else: # This will execute if our jump is finished
-                    jumpCount = 10
-                    can_jump = False
+                if keys_pressed[pygame.K_w]:
+                    if jumpCount >= -10:
+                        jim.y -= (jumpCount * abs(jumpCount)) * 0.5
+                        jumpCount -= 1
+                    else: # This will execute if our jump is finished
+                        jumpCount = 10
+                        can_jump = False
         
 def gravity(jim, all_platforms):
     global can_jump
@@ -118,7 +118,7 @@ def main():
         jim_movement(keys_pressed, jim,platforms)
         draw_window(jim,platforms)
         gravity(jim, platforms)
-        print(can_jump)
+        print(jim.x,jim.y)
 
     pygame.quit
 
