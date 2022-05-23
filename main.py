@@ -58,17 +58,24 @@ def jim_movement(keys_pressed, jim,all_platforms):
         if keys_pressed[pygame.K_d]:
             jim.x+=VEL
         if not(can_jump):
+            #jim.y+=VEL
             if keys_pressed[pygame.K_w]:
                 can_jump=True
+                for platform in all_platforms:
+                    platform.y+=VEL
             if keys_pressed[pygame.K_s]:
                 jim.y+=VEL
         else:
-            if jumpCount >= -10:
-                jim.y -= (jumpCount * abs(jumpCount)) * 0.5
-                jumpCount -= 1
-            else: # This will execute if our jump is finished
-                jumpCount = 10
-                can_jump = False
+            #dont know what to do lol
+                for platform in all_platforms:
+                    platform.y+=VEL
+
+                if jumpCount >= -10:
+                    jim.y -= (jumpCount * abs(jumpCount)) * 0.5
+                    jumpCount -= 1
+                else: # This will execute if our jump is finished
+                    jumpCount = 10
+                    can_jump = False
         
 def gravity(jim, all_platforms):
     global can_jump
@@ -85,11 +92,11 @@ def gravity(jim, all_platforms):
             platform_num=platform_num+1
 
     result = all(platform_ToF)
-    #print(result)
     if result==True:
         can_jump=False
-        print(can_jump)
+
     else:
+
         can_jump=True
 
 
