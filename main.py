@@ -69,6 +69,7 @@ def jim_movement(keys_pressed, jim,all_platforms):
             #dont know what to do lol
                 for platform in all_platforms:
                     platform.y+=VEL
+                #FINALLY IT WORKS
                 if keys_pressed[pygame.K_w]:
                     if jumpCount >= -10:
                         jim.y -= (jumpCount * abs(jumpCount)) * 0.5
