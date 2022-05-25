@@ -77,7 +77,7 @@ def jim_movement(keys_pressed, jim,all_platforms):
                     else: # This will execute if our jump is finished
                         jumpCount = 10
                         can_jump = False
-        
+        #changes lol
 def gravity(jim, all_platforms):
     global can_jump
     platform_num=1
