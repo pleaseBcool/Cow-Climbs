@@ -24,6 +24,11 @@ GRAVITY=1.1
 
 
 
+
+
+
+
+
 total_platforms=100
 
 platform_separation=120
@@ -37,7 +42,6 @@ while total_platforms>0:
     platforms.append(platform)
     total_platforms=total_platforms-1
     platforms_height=platforms_height-platform_separation
-
 
 can_jump=False
 jumpCount=20
